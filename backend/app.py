@@ -20,10 +20,10 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 
 DB_CONFIG = {
-    'host': os.environ.get('DB_HOST', '103.82.231.117'),
-    'user': os.environ.get('DB_USER', 'izhadnwk_hazem'),
-    'password': os.environ.get('DB_PASSWORD', 'vUBUW0#@cp~p'),
-    'database': os.environ.get('DB_NAME', 'izhadnwk_smartmail_hazem'),
+    'host': os.environ.get('DB_HOST'),
+    'user': os.environ.get('DB_USER'),
+    'password': os.environ.get('DB_PASSWORD'),
+    'database': os.environ.get('DB_NAME'),
     'raise_on_warnings': True
 }
 
