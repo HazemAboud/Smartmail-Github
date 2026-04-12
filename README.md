@@ -1,13 +1,13 @@
 # SmartMail
 
-SmartMail is an intelligent email management platform that connects to your Gmail account and uses local Natural Language Processing (NLP) to automatically categorize your emails besed on custom defined categories.
+SmartMail is an intelligent email aggregation app that connects to your Gmail account and uses Natural Language Processing (NLP) to automatically categorize your emails besed on custom defined categories.
 
 ## 🚀 Features
 
 - **Secure Authentication**: User registration and login system with password hashing 
 - **Gmail Integration**: Secure OAuth2 connection to the Gmail API using Authlib.
 - **Custom Categories**: Users can define their own email categories and manage them through the dashboard.
-- **AI Classification**: Local email categorization using the `sentence-transformers` library. It uses the `all-MiniLM-L6-v2` model to perform semantic similarity analysis between email content and categories.
+- **AI Classification**: Email categorization using the `sentence-transformers` library. It uses the `all-MiniLM-L6-v2` model to perform semantic similarity analysis between email content and categories.
 
 ## 🛠️ Tech Stack
 
@@ -16,7 +16,7 @@ SmartMail is an intelligent email management platform that connects to your Gmai
 - **Database**: MySQL (with Connection Pooling)
 - **Authentication**: OAuth2 (Authlib) & Custom Session-based auth
 - **Machine Learning**: Sentence-Transformers (all-MiniLM-L6-v2)
-- **API Clients**: Google API Client Library
+- **APIs**: Google API Library
 
 ### Frontend
 - **Framework**: React (Vite)
