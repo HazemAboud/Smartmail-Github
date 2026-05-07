@@ -12,12 +12,12 @@ SmartMail is an intelligent email management platform that connects to your Gmai
 ## 🛠️ Tech Stack
 
 ### Backend
-- **Framework**: Flask (Python)
-- **Database**: MySQL (with Connection Pooling)
+- **Framework**: Flask
+- **Database**: MySQL
 - **Authentication**: OAuth2 (Authlib) & Custom Session-based auth
 - **Machine Learning**: Sentence-Transformers (all-MiniLM-L6-v2)
-- **API Clients**: Google API Client Library
+- **API**: Google Gmail API
 
 ### Frontend
-- **Framework**: React (Vite)
+- **Framework**: React
 - **Styling**: Bootstrap 5
