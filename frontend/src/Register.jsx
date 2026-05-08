@@ -118,9 +118,7 @@ function Register() {
                 </Form>
               </Card.Body>
             </Card>
-            <div className="text-center mt-4 text-muted small">
-              &copy; {new Date().getFullYear()} SmartMail AI Inc.
-            </div>
+
           </Col>
         </Row>
       </Container>

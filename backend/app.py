@@ -426,5 +426,32 @@ def update_class():
         cursor.close()
         conn.close()
 
+@app.route('/update_email_category', methods=['POST'])
+@login_required
+def update_email_category():
+    user_id = session['user_id']
+    data = request.json
+    gmail_id = data.get('gmail_id')
+    new_category = data.get('new_category')
+
+    if not gmail_id or not new_category:
+        return jsonify({'message': 'Missing gmail_id or new_category'}), 400
+
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "UPDATE stored_emails SET category = %s, confidence_score = %s WHERE user_id = %s AND gmail_id = %s",
+            (new_category, 1.0, user_id, gmail_id)
+        )
+        conn.commit()
+        return jsonify({'message': f'Email {gmail_id} moved to category {new_category}'}), 200
+    except Exception as e:
+        app.logger.error(f"Error updating email category: {e}")
+        return jsonify({'message': 'Failed to update email category'}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000, use_reloader=False)

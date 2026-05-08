@@ -40,6 +40,9 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [showCategories, setShowCategories] = useState(false);
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [contextMenuEmail, setContextMenuEmail] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const fetchEmails = async () => {
@@ -110,6 +113,18 @@ function Home() {
     initialize();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (contextMenuVisible) {
+        setContextMenuVisible(false);
+      }
+    };
+    window.addEventListener('click', handleClickOutside);
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, [contextMenuVisible]);
+
   const handleGmailConnect = () => {
     if (categories.length === 0) {
       alert("Please add at least one category before connecting Gmail.");
@@ -149,6 +164,32 @@ function Home() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleContextMenu = (event, email) => {
+    event.preventDefault();
+    setContextMenuVisible(true);
+    setContextMenuPosition({ x: event.clientX, y: event.clientY });
+    setContextMenuEmail(email);
+  };
+
+  const handleChangeEmailCategory = async (newCategoryName) => {
+    if (!contextMenuEmail) return;
+
+    try {
+      await apiFetch('/update_email_category', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          gmail_id: contextMenuEmail.gmail_id,
+          new_category: newCategoryName,
+        }),
+      });
+      fetchEmails(); // Re-fetch emails to update the UI
+    } catch (err) {
+      setError(err.message);
+    }
+    setContextMenuVisible(false);
   };
 
   return (
@@ -276,8 +317,9 @@ function Home() {
                           {filteredEmails.map((email) => (
                             <ListGroup.Item 
                               key={email.gmail_id} 
-                              className="email-item border-bottom py-3 bg-white" 
+                              className="email-item border-bottom py-3 bg-white"
                               onClick={() => setSelectedEmail(email)} 
+                              onContextMenu={(e) => handleContextMenu(e, email)}
                               style={{ cursor: 'pointer' }}
                             >
                               <div className="d-flex align-items-center">
@@ -308,6 +350,25 @@ function Home() {
           )}
         </div>
       </div>
+      
+      {contextMenuVisible && (
+        <div
+          className="context-menu"
+          style={{ position: 'absolute', top: contextMenuPosition.y, left: contextMenuPosition.x }}
+        >
+          <ListGroup>
+            <ListGroup.Item action onClick={() => handleChangeEmailCategory(null)}>
+              Move to Inbox
+            </ListGroup.Item>
+            {categories.map((cat) => (
+              <ListGroup.Item key={cat.id} action onClick={() => handleChangeEmailCategory(cat.name)}>
+                Move to {cat.name}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </div>
+      )}
+
 
       <Categories
         show={showCategories}
