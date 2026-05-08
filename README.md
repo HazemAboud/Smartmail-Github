@@ -43,4 +43,4 @@ SmartMail is an intelligent email management platform that connects to your Gmai
 
 ## Demo
 
-<video src="demo/demo.mp4" width="100%" controls></video>
+https://www.youtube.com/watch?v=q2AYxD5TpHk
